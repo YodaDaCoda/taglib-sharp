@@ -1219,7 +1219,7 @@ namespace TagLib.Ogg
                 return artistIds.Length == 0 ? null : string.Join ("/", artistIds);
             }
             set {
-                string[] artistIds = value.Split ('/');
+                string[] artistIds = value?.Split('/') ?? null;
                 SetField ("MUSICBRAINZ_ARTISTID", artistIds);
             }
         }
@@ -1276,7 +1276,7 @@ namespace TagLib.Ogg
                 return releaseArtistIds.Length == 0 ? null : string.Join ("/", releaseArtistIds);
             }
             set {
-                string[] releaseArtistIds = value.Split ('/');
+                string[] releaseArtistIds = value?.Split('/') ?? null;
                 SetField ("MUSICBRAINZ_ALBUMARTISTID", releaseArtistIds);
             }
         }

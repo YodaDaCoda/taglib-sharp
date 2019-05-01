@@ -483,7 +483,7 @@ namespace TagLib.Mpeg4
 
             // If we did find a data_box and we have an empty datastring we should
             // remove the entire dash box.
-            if (data_boxes != null && string.IsNullOrEmpty (datastring[0])) {
+            if (datastring == null || (data_boxes != null && string.IsNullOrEmpty (datastring[0]))) {
                 AppleAnnotationBox dash_box = GetParentDashBox (meanstring, namestring);
                 dash_box.ClearChildren ();
                 ilst_box.RemoveChild (dash_box);
@@ -1398,7 +1398,7 @@ namespace TagLib.Mpeg4
                 return artistIds == null ? null : string.Join ("/", artistIds);
             }
             set {
-                string[] artistIds = value.Split ('/');
+                string[] artistIds = value?.Split('/') ?? null;
                 SetDashBoxes ("com.apple.iTunes", "MusicBrainz Artist Id", artistIds);
             }
         }
@@ -1455,7 +1455,7 @@ namespace TagLib.Mpeg4
                 return releaseArtistIds == null ? null : string.Join ("/", releaseArtistIds);
             }
             set {
-                string[] releaseArtistIds = value.Split ('/');
+                string[] releaseArtistIds = value?.Split('/') ?? null;
                 SetDashBoxes ("com.apple.iTunes", "MusicBrainz Album Artist Id", releaseArtistIds);
             }
         }
