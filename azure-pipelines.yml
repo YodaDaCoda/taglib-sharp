@@ -1,0 +1,44 @@
+variables:
+  majorVersion: '2.2.0'
+  minorVersion: $[counter('minorVersion', 20)]
+  version: '$(majorVersion).$(minorVersion)'
+  buildName: '$(Build.SourceBranchName).$(version)'
+
+trigger:
+  branches:
+    include:
+    - master
+
+pr:
+- master
+
+
+stages:
+  - stage: Build
+    jobs:
+
+    - job: TaglibSharp
+      pool:
+        vmImage: 'ubuntu-18.04'
+      steps:
+      - powershell: Write-Host "##vso[build.updatebuildnumber]$($env:VERSION)"
+        displayName: Set Build Name
+      - bash: |
+          sed -i'' -e "s/<Version>[0-9.*]\+<\/Version>/<Version>$VERSION<\/Version>/g" src/TaglibSharp/TaglibSharp.csproj
+        displayName: Set assembly version
+      - task: DotNetCoreCLI@2
+        displayName: .NET Standard 2.0
+        inputs:
+          command: 'build'
+          projects: 'TaglibSharp.sln'
+          arguments: '/p:Configuration=Release'
+
+      # - task: NuGetCommand@2
+      #   enabled: true
+      #   inputs:
+      #     command: 'push'
+      #     packagesToPush: 'src/TaglibSharp/bin/Release/*.nupkg;!src/TaglibSharp/bin/Release/*.snupkg'
+      #     nuGetFeedType: 'internal'
+      #     publishVstsFeed: '43582661-9ac3-4ec6-9583-209885d5ff34/5d856138-315d-4cf9-9209-fcb7e8943d81'
+      - publish: src/TaglibSharp/bin/Release
+        artifact: Packages
