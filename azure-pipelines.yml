@@ -26,6 +26,10 @@ stages:
       - bash: |
           sed -i'' -e "s/<Version>[0-9.*]\+<\/Version>/<Version>$VERSION<\/Version>/g" src/TaglibSharp/TaglibSharp.csproj
         displayName: Set assembly version
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK'
+        inputs:
+          version: 6.x
       - task: DotNetCoreCLI@2
         displayName: .NET Standard 2.0
         inputs:
