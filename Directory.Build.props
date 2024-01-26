@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ReleaseVersion>2.4.0.0</ReleaseVersion>
-    <RepositoryUrl>https://github.com/mono/taglib-sharp</RepositoryUrl>
+    <RepositoryUrl>https://github.com/lidarr/taglib-sharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
 
     <!-- Make sure to update Directory.Build.targets too! -->
